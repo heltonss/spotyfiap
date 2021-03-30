@@ -40,7 +40,7 @@ export const Text = styled.p`
 `;
 
 export const LinkText = styled(Link)`
-  color: ${(props) => props.colorFont || "#fff"};
+  color: ${(props) => props.colorfont || "#fff"};
   text-decoration: none;
   display: block;
   text-transform: uppercase;

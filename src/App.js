@@ -1,16 +1,22 @@
-import './config/ReactotronConfig';
-import React from 'react';
-import Sidebar from 'components/Sidebar';
-import Player from 'components/Player';
-import Header from 'components/Header';
-import ErrorBox from 'components/ErrorBox';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
-import store from 'store';
-import Routes from 'routes';
-import { Wrapper, Container, Content } from './assets/styles/components';
+import "./config/ReactotronConfig";
+import React, { useEffect } from "react";
+import Sidebar from "components/Sidebar";
+import Player from "components/Player";
+import Header from "components/Header";
+import ErrorBox from "components/ErrorBox";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import store from "store";
+import Routes from "routes";
+import { Wrapper, Container, Content } from "./assets/styles/components";
+import firebase from "firebase/app";
+import firebaseConfig from "./config/firebase";
 
 const App = () => {
+  useEffect(() => {
+    firebase.initializeApp(firebaseConfig);
+  }, []);
+
   return (
     <Provider store={store}>
       <BrowserRouter>
@@ -28,6 +34,6 @@ const App = () => {
       </BrowserRouter>
     </Provider>
   );
-}
+};
 
 export default App;
