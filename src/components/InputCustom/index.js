@@ -2,7 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Input, Label } from "./style";
 
-const InputCustom = ({ label, type, func }) => {
+const InputCustom = ({ label, type, func, submit = undefined }) => {
+  const action = (event) => {
+    if (event.keyCode === 13 && submit) {
+      submit();
+    }
+  };
+
   return (
     <Label htmlFor={label}>
       {label}
@@ -10,6 +16,7 @@ const InputCustom = ({ label, type, func }) => {
         id={label}
         type={type}
         onChange={(event) => func(event.target.value)}
+        onKeyDown={(e) => action(e)}
       />
     </Label>
   );

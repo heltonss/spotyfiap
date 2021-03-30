@@ -36,11 +36,15 @@ const Register = () => {
     setIsValidRegister(validator.validate(email) && password.length >= 6);
   }, [email, password]);
 
-  console.log(isValidRegister);
   return (
     <Modal title="cadastrar">
       <InputEmail label="e-mail" type="email" func={setEmail} />
-      <InputCustom label="senha" type="password" func={setPassword} />
+      <InputCustom
+        label="senha"
+        type="password"
+        func={setPassword}
+        submit={createuser}
+      />
       <ButtonCustom
         label="cadastrar usuário"
         type="button"
