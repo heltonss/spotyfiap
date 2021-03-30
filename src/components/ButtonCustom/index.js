@@ -2,13 +2,21 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Button } from "./style";
 
-const ButtonCustom = ({ label, type, background, colorFont, func }) => {
+const ButtonCustom = ({
+  label,
+  type,
+  background,
+  colorFont,
+  disabled,
+  func,
+}) => {
   return (
     <Button
       background={background}
       colorFont={colorFont}
       type={type}
       onClick={func}
+      disabled={disabled}
     >
       {label}
     </Button>

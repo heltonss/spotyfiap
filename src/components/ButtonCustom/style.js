@@ -13,4 +13,7 @@ export const Button = styled.button`
     border: none;
     outline: none;
   }
+  &:disabled {
+    background: #999;
+  }
 `;

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import InputCustom from "components/InputCustom";
+import InputEmail from "components/InputEmail";
 import ButtonCustom from "components/ButtonCustom";
 import { Text, LinkText } from "./style";
 import firebase from "firebase";
@@ -25,7 +26,7 @@ const Login = () => {
 
   return (
     <Modal title="login">
-      <InputCustom label="e-mail" type="email" func={setEmail} />
+      <InputEmail label="e-mail" func={setEmail} />
       <InputCustom label="senha" type="password" func={setPassword} />
       <ButtonCustom
         label="acessar"
