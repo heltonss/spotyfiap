@@ -11,25 +11,45 @@ import Routes from "routes";
 import { Wrapper, Container, Content } from "./assets/styles/components";
 import firebase from "firebase/app";
 import firebaseConfig from "./config/firebase";
+import {
+  transitions,
+  positions,
+  Provider as AlertProvider,
+  types,
+} from "react-alert";
+import AlertTemplate from "react-alert-template-basic";
 
 const App = () => {
   useEffect(() => {
     firebase.initializeApp(firebaseConfig);
   }, []);
 
+  const options = {
+    position: positions.TOP_CENTER,
+    timeout: 5000,
+    offset: "30px",
+    type: types.SUCCESS,
+    transition: transitions.SCALE,
+    containerStyle: {
+      zIndex: 100000000000,
+    },
+  };
+
   return (
     <Provider store={store}>
       <BrowserRouter>
         <Wrapper>
-          <Container>
-            <Sidebar />
-            <Content>
-              <ErrorBox />
-              <Header />
-              <Routes />
-            </Content>
-          </Container>
-          <Player />
+          <AlertProvider template={AlertTemplate} {...options}>
+            <Container>
+              <Sidebar />
+              <Content>
+                <ErrorBox />
+                <Header />
+                <Routes />
+              </Content>
+            </Container>
+            <Player />
+          </AlertProvider>
         </Wrapper>
       </BrowserRouter>
     </Provider>
