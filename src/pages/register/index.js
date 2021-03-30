@@ -9,15 +9,18 @@ import { useAlert } from "react-alert";
 import { useHistory } from "react-router";
 import { AlertType } from "../../utils/AlertType";
 import validator from "email-validator";
+import Loader from "components/Loader";
 
 const Register = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [isValidRegister, setIsValidRegister] = useState(true);
   const history = useHistory();
   const alert = useAlert();
 
   const createuser = () => {
+    setLoading(true);
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
@@ -27,9 +30,10 @@ const Register = () => {
           history.push("/");
         }, 2000);
       })
-      .catch((error) =>
-        alert.show("contate o suporte!", { type: AlertType.SUCCESS })
-      );
+      .catch((error) => {
+        alert.show("contate o suporte!", { type: AlertType.SUCCESS });
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -45,13 +49,17 @@ const Register = () => {
         func={setPassword}
         submit={createuser}
       />
-      <ButtonCustom
-        label="cadastrar usuário"
-        type="button"
-        colorFont="#222"
-        disabled={!isValidRegister}
-        func={() => createuser()}
-      />
+      {loading ? (
+        <Loader />
+      ) : (
+        <ButtonCustom
+          label="cadastrar usuário"
+          type="button"
+          colorFont="#222"
+          disabled={!isValidRegister}
+          func={() => createuser()}
+        />
+      )}
       <Text>
         Já tem usuário? faça seu login
         <LinkText colorfont="#91f70e" to="/">

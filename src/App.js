@@ -1,4 +1,5 @@
 import "./config/ReactotronConfig";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import React, { useEffect } from "react";
 import Sidebar from "components/Sidebar";
 import Player from "components/Player";
