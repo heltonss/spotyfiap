@@ -12,12 +12,15 @@ const Routes = () => (
     <Route exact path="/" component={Login} />
     <Route path="/about" component={About} />
     <Route path="/cadastro" component={Register} />
-    <PrivateRoute path="/home">
+    {/* <PrivateRoute path="/home">
       <Browse />
     </PrivateRoute>
     <PrivateRoute path="/playlist/:id">
       <Playlist />
-    </PrivateRoute>
+    </PrivateRoute> */}
+    <Route path="/about" component={About} />
+    <PrivateRoute path="/home" component={Browse} />
+    <PrivateRoute path="/playlist/:id" component={Playlist} />
   </Switch>
 );
 
