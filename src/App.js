@@ -22,7 +22,7 @@ import AlertTemplate from "react-alert-template-basic";
 
 const App = () => {
   useEffect(() => {
-    firebase.initializeApp(firebaseConfig);
+    // firebase.initializeApp(firebaseConfig);
   }, []);
 
   const options = {
