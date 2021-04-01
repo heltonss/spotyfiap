@@ -18,7 +18,7 @@ const Sidebar = ({ getPlaylistRequest, playlists }) => {
       <div>
         <Nav main>
           <li>
-            <Link to="/">Navegar</Link>
+            <Link to="/home">Navegar</Link>
           </li>
           <li>
             <a href="#">Rádio</a>

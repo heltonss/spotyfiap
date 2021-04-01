@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -6,7 +6,9 @@ import { Container, Title, List, Playlist } from "./style";
 import { Creators as PlaylistActions } from "../../store/ducks/playlist";
 import Loading from "components/loading";
 
-const Browse = ({ playlists }) => {
+import { withRouter } from "react-router-dom";
+
+const Browse = ({ playlists, match }) => {
   return (
     <Container>
       <Title>Navegar {playlists.loading && <Loading />} </Title>
@@ -45,4 +47,4 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(PlaylistActions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Browse);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Browse));

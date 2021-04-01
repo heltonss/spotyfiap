@@ -6,7 +6,7 @@ import Player from "components/Player";
 import Header from "components/Header";
 import ErrorBox from "components/ErrorBox";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Switch } from "react-router-dom";
 import store from "store";
 import Routes from "routes";
 import { Wrapper, Container, Content } from "./assets/styles/components";
@@ -39,19 +39,21 @@ const App = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <Wrapper>
-          <AlertProvider template={AlertTemplate} {...options}>
-            <Container>
-              <Sidebar />
-              <Content>
-                <ErrorBox />
-                <Header />
-                <Routes />
-              </Content>
-            </Container>
-            <Player />
-          </AlertProvider>
-        </Wrapper>
+        <Switch>
+          <Wrapper>
+            <AlertProvider template={AlertTemplate} {...options}>
+              <Container>
+                <Sidebar />
+                <Content>
+                  <ErrorBox />
+                  <Header />
+                  <Routes />
+                </Content>
+              </Container>
+              <Player />
+            </AlertProvider>
+          </Wrapper>
+        </Switch>
       </BrowserRouter>
     </Provider>
   );
