@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 import { SongItem, SongList, Icon } from "./style";
 import ClockIcon from "assets/images/clock.svg";
 import PlusIcon from "assets/images/plus.svg";
+import { useAlert } from "react-alert";
 
 import { Creators as SongsActions } from "../../store/ducks/songs";
 import { Creators as PlayerActions } from "../../store/ducks/player";
@@ -13,6 +14,7 @@ import { Creators as PlaylistActions } from "../../store/ducks/playlist";
 import InputCustom from "components/InputCustom";
 import ButtonCustom from "components/ButtonCustom";
 import LoaderWave from "components/Loader";
+import { AlertType } from "utils/AlertType";
 
 const HandlePlaylist = ({
   getSongsRequest,
@@ -22,10 +24,12 @@ const HandlePlaylist = ({
   savePlaylist,
   match,
 }) => {
+  const alert = useAlert();
   const [selectedSong, setSelectedSong] = useState(null);
-  const [title, setTitle] = useState();
-  const [description, setDescription] = useState();
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [thumbnail, setThumbnail] = useState("");
+  const [isValidate, setIsValidate] = useState();
   const listSongs = new Set();
   const isEdit = match.params.id;
 
@@ -37,8 +41,15 @@ const HandlePlaylist = ({
       songs: Array.from(listSongs),
     };
     console.log({ playlist });
-    savePlaylist(playlist);
+    return savePlaylist(playlist);
   };
+
+  useEffect(() => {
+    console.log(isValidate);
+    setIsValidate(
+      title.length > 5 && description.length > 10 && thumbnail.length > 15
+    );
+  }, [title, description, thumbnail]);
 
   useEffect(() => {
     getSongsRequest();
@@ -89,7 +100,10 @@ const HandlePlaylist = ({
             >
               <td>
                 <Icon
-                  onClick={() => listSongs.add(song)}
+                  onClick={() => {
+                    alert.show("Música add", { type: AlertType.SUCCESS });
+                    listSongs.add(song);
+                  }}
                   src={PlusIcon}
                   alt="adicionar"
                 />
@@ -110,6 +124,7 @@ const HandlePlaylist = ({
           colorFont="#333"
           label="Criar playlist"
           func={createPlaylist}
+          disabled={!isValidate}
         />
       )}
     </Modal>
