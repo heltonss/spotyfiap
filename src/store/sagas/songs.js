@@ -1,26 +1,25 @@
 import { put } from "redux-saga/effects";
 
-import { Creators as PlaylistActions } from "../ducks/playlist";
+import { Creators as SongsActions } from "../ducks/songs";
 import { Creators as ErrorActions } from "../ducks/error";
 import firebase from "firebase";
 
-export function* getPlaylists() {
+export function* getSongs() {
   const db = firebase.firestore();
-  const playslists = [];
+  const songs = [];
   try {
     yield db
-      .collection("playlists")
+      .collection("songs")
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          playslists.push(doc.data());
+          songs.push(doc.data());
         });
       });
 
-    yield put(PlaylistActions.getPlaylistSuccess(playslists));
+    yield put(SongsActions.getSongsSuccess(songs));
   } catch (err) {
-    yield put(ErrorActions.setError("Error ao obter playlist"));
-
+    yield put(ErrorActions.setError("Error ao obter Songs"));
     console.log(err);
   }
 }

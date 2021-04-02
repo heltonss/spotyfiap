@@ -77,7 +77,7 @@ const Sidebar = ({ getPlaylistRequest, playlists }) => {
           ))}
         </Nav>
       </div>
-      <NewPlaylist>
+      <NewPlaylist to="/adicionar-playlist">
         <img src={AddPlaylistIcon} alt="Adicionar playlist" />
         Nova Playlist
       </NewPlaylist>

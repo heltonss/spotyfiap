@@ -18,7 +18,7 @@ export const Box = styled.section`
   border: solid 0.5px #91f70e;
   border-radius: 10px/10px;
   background: #222;
-  max-width: 300px;
+  max-width: ${(props) => (props.maxWidth ? `${props.maxWidth}px` : "300px")};
   text-align: center;
   line-height: 24px;
 `;

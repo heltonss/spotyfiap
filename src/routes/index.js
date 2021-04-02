@@ -6,6 +6,7 @@ import Playlist from "pages/playlist";
 import Login from "pages/login";
 import Register from "pages/register";
 import PrivateRoute from "components/PrivateRoute";
+import HandlePlaylist from "pages/HandlePlaylist";
 
 const Routes = () => (
   <Switch>
@@ -21,6 +22,9 @@ const Routes = () => (
     <Route path="/about" component={About} />
     <PrivateRoute path="/home" component={Browse} />
     <PrivateRoute path="/playlist/:id" component={Playlist} />
+    <Route path="/home" component={Browse} />
+    <Route path="/playlist/:id" component={Playlist} />
+    <Route path="/adicionar-playlist" component={HandlePlaylist} />
   </Switch>
 );
 

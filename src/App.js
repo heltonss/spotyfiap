@@ -10,8 +10,7 @@ import { BrowserRouter, Switch } from "react-router-dom";
 import store from "store";
 import Routes from "routes";
 import { Wrapper, Container, Content } from "./assets/styles/components";
-import firebase from "firebase/app";
-import firebaseConfig from "./config/firebase";
+
 import {
   transitions,
   positions,
@@ -21,10 +20,6 @@ import {
 import AlertTemplate from "react-alert-template-basic";
 
 const App = () => {
-  useEffect(() => {
-    // firebase.initializeApp(firebaseConfig);
-  }, []);
-
   const options = {
     position: positions.TOP_CENTER,
     timeout: 5000,

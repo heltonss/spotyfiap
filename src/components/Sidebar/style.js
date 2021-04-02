@@ -1,5 +1,6 @@
-import styled from 'styled-components';
-import { Spinner } from 'components/loading/style';
+import styled from "styled-components";
+import { Spinner } from "components/loading/style";
+import { Link } from "react-router-dom";
 
 export const Container = styled.aside`
   height: 100%;
@@ -33,7 +34,7 @@ export const Nav = styled.ul`
       text-decoration: none;
       font-size: 13px;
       line-height: 32px;
-      font-weight: ${props => (props.main ? 'bold' : 'normal')};
+      font-weight: ${(props) => (props.main ? "bold" : "normal")};
 
       &:hover {
         color: #fff;
@@ -55,7 +56,7 @@ export const Nav = styled.ul`
   }
 `;
 
-export const NewPlaylist = styled.button`
+export const NewPlaylist = styled(Link)`
   background: transparent;
   border: 0;
   border-top: 1px solid #282828;
@@ -64,6 +65,8 @@ export const NewPlaylist = styled.button`
   display: flex;
   align-items: center;
   padding: 15px 25px;
+  text-decoration: none;
+  cursor: pointer;
 
   &:hover {
     color: #fff;
