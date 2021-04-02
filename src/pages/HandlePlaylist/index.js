@@ -10,6 +10,7 @@ import { useAlert } from "react-alert";
 import { Creators as SongsActions } from "../../store/ducks/songs";
 import { Creators as PlayerActions } from "../../store/ducks/player";
 import { Creators as PlaylistActions } from "../../store/ducks/playlist";
+import { Creators as PlaylistDetailsActions } from "../../store/ducks/playlistDetails";
 
 import InputCustom from "components/InputCustom";
 import ButtonCustom from "components/ButtonCustom";
@@ -23,6 +24,9 @@ const HandlePlaylist = ({
   currentSong,
   savePlaylist,
   match,
+  playlistDetails,
+  loadingDetails,
+  getPlaylistDetailsRequest,
 }) => {
   const alert = useAlert();
   const [selectedSong, setSelectedSong] = useState(null);
@@ -31,7 +35,8 @@ const HandlePlaylist = ({
   const [thumbnail, setThumbnail] = useState("");
   const [isValidate, setIsValidate] = useState();
   const listSongs = new Set();
-  const isEdit = match.params.id;
+  const playlistID = match.params.id;
+  const isEdit = playlistID || null;
 
   const createPlaylist = () => {
     const playlist = {
@@ -44,15 +49,24 @@ const HandlePlaylist = ({
   };
 
   useEffect(() => {
-    console.log(isValidate);
+    getSongsRequest();
+    getPlaylistDetailsRequest(playlistID);
+  }, []);
+
+  useEffect(() => {
+    if (isEdit && loadingDetails) {
+      const { title, description, thumbnail } = playlistDetails;
+      setTitle(title || "");
+      setDescription(description || "");
+      setThumbnail(thumbnail || "");
+    }
+  }, [loadingDetails]);
+
+  useEffect(() => {
     setIsValidate(
       title.length > 5 && description.length > 10 && thumbnail.length > 15
     );
   }, [title, description, thumbnail]);
-
-  useEffect(() => {
-    getSongsRequest();
-  }, []);
 
   return (
     <Modal
@@ -64,18 +78,21 @@ const HandlePlaylist = ({
         label="Nome da playlist"
         placeholder="adicione o titulo da sua playlist"
         func={setTitle}
+        value={title}
       />
       <InputCustom
         type="text"
         label="Descrição"
         placeholder="adicione o titulo da sua playlist"
         func={setDescription}
+        value={description}
       />
       <InputCustom
         type="text"
         label="Capa da playlist"
         placeholder="adicione uma url de capa que encontrar no google"
         func={setThumbnail}
+        value={thumbnail}
       />
       <SongList cellPadding={0} cellSpacing={0}>
         <thead>
@@ -134,11 +151,18 @@ const mapStateToProps = (state) => ({
   songs: state.songs.data,
   currentSong: state.player.currentSong,
   loading: state.playlists.loading,
+  playlistDetails: state.playlistDetails.data,
+  loadingDetails: !state.playlistDetails.loading,
 });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
-    { ...SongsActions, ...PlayerActions, ...PlaylistActions },
+    {
+      ...SongsActions,
+      ...PlayerActions,
+      ...PlaylistActions,
+      ...PlaylistDetailsActions,
+    },
     dispatch
   );
 

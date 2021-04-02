@@ -12,6 +12,7 @@ export function* getPlaylistDetails(action) {
     yield docRef.get().then((doc) => {
       if (doc.exists) {
         data = doc.data();
+        console.log({ data });
       }
     });
     yield put(PlaylistDetailsActions.getPlaylistDetailsSuccess(data));

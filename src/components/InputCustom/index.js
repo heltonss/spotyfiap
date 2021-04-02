@@ -8,6 +8,7 @@ const InputCustom = ({
   func,
   submit = undefined,
   placeholder = "",
+  ...props
 }) => {
   const action = (event) => {
     if (event.keyCode === 13 && submit) {
@@ -24,6 +25,7 @@ const InputCustom = ({
         onChange={(event) => func(event.target.value)}
         onKeyDown={(e) => action(e)}
         placeholder={placeholder}
+        {...props}
       />
     </Label>
   );
