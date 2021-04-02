@@ -9,6 +9,7 @@ import { Container, NewPlaylist, Nav } from "./style";
 import Loading from "components/loading";
 
 const Sidebar = ({ getPlaylistRequest, playlists, playlistsId, loading }) => {
+  console.log({ playlists });
   useEffect(() => {
     getPlaylistRequest();
   }, []);
@@ -70,9 +71,9 @@ const Sidebar = ({ getPlaylistRequest, playlists, playlistsId, loading }) => {
             <span>playlists</span>
             {loading && <Loading />}
           </li>
-          {playlists.map((playlist) => (
-            <li key={playlist.id}>
-              <Link to={`/playlist/${playlistsId}`}>{playlist.title}</Link>
+          {playlists.map((p) => (
+            <li key={p.playlist.description}>
+              <Link to={`/playlist/${p.id}`}>{p.playlist.title}</Link>
             </li>
           ))}
         </Nav>
@@ -92,8 +93,7 @@ Sidebar.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  playlists: state.playlists.data.playlist,
-  playlistsId: state.playlists.data.id,
+  playlists: state.playlists.data,
   loading: state.playlists.loading,
 });
 

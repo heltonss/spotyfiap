@@ -6,16 +6,17 @@ import { Container, Title, List, Playlist } from "./style";
 import { Creators as PlaylistActions } from "../../store/ducks/playlist";
 import Loading from "components/loading";
 
-const Browse = ({ playlists, loading, playlistsId }) => {
+const Browse = ({ playlists, loading }) => {
+  console.log(playlists);
   return (
     <Container>
       <Title>Navegar {loading && <Loading />} </Title>
       <List>
-        {playlists.map((playlist) => (
-          <Playlist key={playlist.id} to={`/playlist/${playlistsId}`}>
-            <img src={playlist.thumbnail} alt={playlist.title} />
-            <strong>{playlist.title}</strong>
-            <p>{playlist.description}</p>
+        {playlists.map((p) => (
+          <Playlist key={p.playlist.description} to={`/playlist/${p.id}`}>
+            <img src={p.playlist.thumbnail} alt={p.title} />
+            <strong>{p.playlist.title}</strong>
+            <p>{p.playlist.description}</p>
           </Playlist>
         ))}
       </List>
@@ -30,9 +31,8 @@ Browse.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  playlists: state.playlists.data.playlist,
+  playlists: state.playlists.data,
   loading: state.playlists.loading,
-  playlistsId: state.playlists.data.id,
 });
 
 const mapDispatchToProps = (dispatch) =>

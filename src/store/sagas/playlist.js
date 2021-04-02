@@ -6,18 +6,14 @@ import firebase from "firebase";
 
 export function* getPlaylists() {
   const db = firebase.firestore();
-  const data = {
-    id: 0,
-    playlist: [],
-  };
+  const data = [];
   try {
     yield db
       .collection("playlists")
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          data.id = doc.id;
-          data.playlist.push(doc.data());
+          data.push({ id: doc.id, playlist: doc.data() });
         });
       });
     yield put(PlaylistActions.getPlaylistSuccess(data));

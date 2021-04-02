@@ -6,10 +6,7 @@ export const Types = {
 };
 
 const INITIAL_STATE = {
-  data: {
-    id: 0,
-    playlist: [],
-  },
+  data: [],
   loading: false,
   newPlaylist: {},
 };
