@@ -6,18 +6,21 @@ import firebase from "firebase";
 
 export function* getPlaylists() {
   const db = firebase.firestore();
-  const playslists = [];
+  const data = {
+    id: 0,
+    playlist: [],
+  };
   try {
     yield db
       .collection("playlists")
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          playslists.push(doc.data());
+          data.id = doc.id;
+          data.playlist.push(doc.data());
         });
       });
-
-    yield put(PlaylistActions.getPlaylistSuccess(playslists));
+    yield put(PlaylistActions.getPlaylistSuccess(data));
   } catch (err) {
     yield put(ErrorActions.setError("Error ao obter playlist"));
 
@@ -26,7 +29,6 @@ export function* getPlaylists() {
 }
 
 export function* savePlaylist(action) {
-  console.log(action);
   const db = firebase.firestore();
 
   try {

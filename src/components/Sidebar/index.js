@@ -8,7 +8,7 @@ import { Creators as PlaylistActions } from "../../store/ducks/playlist";
 import { Container, NewPlaylist, Nav } from "./style";
 import Loading from "components/loading";
 
-const Sidebar = ({ getPlaylistRequest, playlists }) => {
+const Sidebar = ({ getPlaylistRequest, playlists, playlistsId, loading }) => {
   useEffect(() => {
     getPlaylistRequest();
   }, []);
@@ -68,11 +68,11 @@ const Sidebar = ({ getPlaylistRequest, playlists }) => {
         <Nav>
           <li>
             <span>playlists</span>
-            {playlists.loading && <Loading />}
+            {loading && <Loading />}
           </li>
-          {playlists.data.map((playlist) => (
+          {playlists.map((playlist) => (
             <li key={playlist.id}>
-              <Link to={`/playlist/${playlist.id}`}>{playlist.title}</Link>
+              <Link to={`/playlist/${playlistsId}`}>{playlist.title}</Link>
             </li>
           ))}
         </Nav>
@@ -87,19 +87,14 @@ const Sidebar = ({ getPlaylistRequest, playlists }) => {
 
 Sidebar.propTypes = {
   getPlaylistRequest: PropTypes.func.isRequired,
-  playlists: PropTypes.shape({
-    data: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.date,
-        title: PropTypes.string,
-      })
-    ),
-    loading: PropTypes.bool,
-  }),
+  playlists: PropTypes.array,
+  loading: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
-  playlists: state.playlists,
+  playlists: state.playlists.data.playlist,
+  playlistsId: state.playlists.data.id,
+  loading: state.playlists.loading,
 });
 
 const mapDispatchToProps = (dispatch) =>

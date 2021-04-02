@@ -6,15 +6,13 @@ import { Container, Title, List, Playlist } from "./style";
 import { Creators as PlaylistActions } from "../../store/ducks/playlist";
 import Loading from "components/loading";
 
-import { withRouter } from "react-router-dom";
-
-const Browse = ({ playlists, match }) => {
+const Browse = ({ playlists, loading, playlistsId }) => {
   return (
     <Container>
-      <Title>Navegar {playlists.loading && <Loading />} </Title>
+      <Title>Navegar {loading && <Loading />} </Title>
       <List>
-        {playlists.data.map((playlist) => (
-          <Playlist key={playlist.id} to={`/playlist/${playlist.id}`}>
+        {playlists.map((playlist) => (
+          <Playlist key={playlist.id} to={`/playlist/${playlistsId}`}>
             <img src={playlist.thumbnail} alt={playlist.title} />
             <strong>{playlist.title}</strong>
             <p>{playlist.description}</p>
@@ -27,24 +25,17 @@ const Browse = ({ playlists, match }) => {
 
 Browse.propTypes = {
   getPlaylistRequest: PropTypes.func.isRequired,
-  playlists: PropTypes.shape({
-    data: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number,
-        title: PropTypes.string,
-        thumbnail: PropTypes.string,
-        description: PropTypes.string,
-      })
-    ),
-    loading: PropTypes.bool,
-  }),
+  playlists: PropTypes.array,
+  loading: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
-  playlists: state.playlists,
+  playlists: state.playlists.data.playlist,
+  loading: state.playlists.loading,
+  playlistsId: state.playlists.data.id,
 });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(PlaylistActions, dispatch);
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Browse));
+export default connect(mapStateToProps, mapDispatchToProps)(Browse);

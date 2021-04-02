@@ -5,7 +5,10 @@ export const Types = {
 };
 
 const INITIAL_STATE = {
-  data: [],
+  data: {
+    id: 0,
+    playlist: [],
+  },
   loading: false,
   newPlaylist: {},
 };
@@ -15,7 +18,11 @@ export default function Playlist(state = INITIAL_STATE, action) {
     case Types.GET_REQUEST:
       return { ...state, loading: true };
     case Types.GET_SUCCESS:
-      return { ...state, loading: false, data: action.payload.data };
+      return {
+        ...state,
+        loading: false,
+        data: action.payload.data,
+      };
     case Types.SAVE_PLAYLIST:
       return {
         ...state,
