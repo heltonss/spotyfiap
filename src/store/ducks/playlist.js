@@ -1,5 +1,6 @@
 export const Types = {
   GET_REQUEST: "playlists/GET_REQUEST",
+  GET_REQUEST_ID: "playlists/GET_REQUEST_ID",
   GET_SUCCESS: "playlists/GET_SUCCESS",
   SAVE_PLAYLIST: "playlists/SAVE_PLAYLIST",
 };
@@ -36,6 +37,10 @@ export default function Playlist(state = INITIAL_STATE, action) {
 
 export const Creators = {
   getPlaylistRequest: () => ({ type: Types.GET_REQUEST }),
+  getPlaylistDetailsRequest: (id) => ({
+    type: Types.GET_REQUEST,
+    payload: { id },
+  }),
   getPlaylistSuccess: (data) => ({
     type: Types.GET_SUCCESS,
     payload: { data },

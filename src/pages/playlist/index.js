@@ -12,6 +12,7 @@ const Playlist = ({
   playlistDetails,
   loadPlaylistDetails,
   getPlaylistDetailsRequest,
+  loading,
 }) => {
   loadPlaylistDetails = () => {
     const { id } = match.params;
@@ -22,7 +23,7 @@ const Playlist = ({
     loadPlaylistDetails();
   }, [match.params.id]);
 
-  return playlistDetails.loading ? (
+  return loading ? (
     <Container loading>
       <Loading />
     </Container>
@@ -32,7 +33,8 @@ const Playlist = ({
 };
 
 const mapStateToProps = (state) => ({
-  playlistDetails: state.playlistDetails,
+  playlistDetails: state.playlistDetails.data,
+  loading: state.playlistDetails.loading,
 });
 
 const mapDispatchToProps = (dispatch) =>
