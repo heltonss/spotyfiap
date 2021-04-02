@@ -90,7 +90,7 @@ Sidebar.propTypes = {
   playlists: PropTypes.shape({
     data: PropTypes.arrayOf(
       PropTypes.shape({
-        id: PropTypes.number,
+        id: PropTypes.date,
         title: PropTypes.string,
       })
     ),

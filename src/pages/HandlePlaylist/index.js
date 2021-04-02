@@ -8,23 +8,63 @@ import PlusIcon from "assets/images/plus.svg";
 
 import { Creators as SongsActions } from "../../store/ducks/songs";
 import { Creators as PlayerActions } from "../../store/ducks/player";
+import { Creators as PlaylistActions } from "../../store/ducks/playlist";
+
 import InputCustom from "components/InputCustom";
 import ButtonCustom from "components/ButtonCustom";
+import LoaderWave from "components/Loader";
 
-const HandlePlaylist = ({ getSongsRequest, songs, loadSong, currentSong }) => {
+const HandlePlaylist = ({
+  getSongsRequest,
+  songs,
+  loading,
+  currentSong,
+  savePlaylist,
+}) => {
   const [selectedSong, setSelectedSong] = useState(null);
-  console.log(songs);
+  const [title, setTitle] = useState();
+  const [description, setDescription] = useState();
+  const [thumbnail, setThumbnail] = useState("");
+  const listSongs = new Set();
+
+  const createPlaylist = () => {
+
+    const playlist = {
+      title,
+      description,
+      thumbnail,
+      songs: Array.from(listSongs),
+    };
+    console.log({ playlist });
+    savePlaylist(playlist);
+
+
+  };
 
   useEffect(() => {
     getSongsRequest();
   }, []);
 
+
   return (
     <Modal title="Crie sua playlist" maxWidth="600">
       <InputCustom
         type="text"
-        label="Título"
+        label="Nome da playlist"
         placeholder="adicione o titulo da sua playlist"
+        func={setTitle}
+      />
+      <InputCustom
+        type="text"
+        label="Descrição"
+        placeholder="adicione o titulo da sua playlist"
+        func={setDescription}
+      />
+      <InputCustom
+        type="text"
+        label="Capa da playlist"
+        placeholder="adicione uma url de capa que encontrar no google"
+        func={setThumbnail}
       />
       <SongList cellPadding={0} cellSpacing={0}>
         <thead>
@@ -42,13 +82,16 @@ const HandlePlaylist = ({ getSongsRequest, songs, loadSong, currentSong }) => {
           {songs.map((song) => (
             <SongItem
               key={song.id}
-              onDoubleClick={() => loadSong(song, songs)}
               onClick={() => setSelectedSong(song.id)}
               selected={selectedSong === song.id}
               playing={currentSong && currentSong.id === song.id}
             >
               <td>
-                <Icon src={PlusIcon} alt="adicionar" />
+                <Icon
+                  onClick={() => listSongs.add(song)}
+                  src={PlusIcon}
+                  alt="adicionar"
+                />
               </td>
               <td>{song.title}</td>
               <td>{song.author}</td>
@@ -58,7 +101,16 @@ const HandlePlaylist = ({ getSongsRequest, songs, loadSong, currentSong }) => {
           ))}
         </tbody>
       </SongList>
-      <ButtonCustom colorFont="#333" label="Criar playlist" />
+      {loading ? (
+        <LoaderWave />
+      ) : (
+        <ButtonCustom
+        type="button"
+          colorFont="#333"
+          label="Criar playlist"
+          func={createPlaylist}
+        />
+      )}
     </Modal>
   );
 };
@@ -66,9 +118,13 @@ const HandlePlaylist = ({ getSongsRequest, songs, loadSong, currentSong }) => {
 const mapStateToProps = (state) => ({
   songs: state.songs.data,
   currentSong: state.player.currentSong,
+  loading: state.playlists.loading,
 });
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ ...SongsActions, ...PlayerActions }, dispatch);
+  bindActionCreators(
+    { ...SongsActions, ...PlayerActions, ...PlaylistActions },
+    dispatch
+  );
 
 export default connect(mapStateToProps, mapDispatchToProps)(HandlePlaylist);

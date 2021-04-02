@@ -45,3 +45,10 @@ export const LinkText = styled(Link)`
   text-transform: uppercase;
   letter-spacing: 1px;
 `;
+
+export const Close = styled.span`
+  cursor: pointer;
+  font-size: 18px;
+  float: right;
+  margin-right: 20px;
+`;

@@ -24,3 +24,21 @@ export function* getPlaylists() {
     console.log(err);
   }
 }
+
+export function* savePlaylist(action) {
+  console.log(action);
+  const db = firebase.firestore();
+
+  try {
+    yield db
+      .collection("playlists")
+      .add(action.payload)
+      .then((docRef) => {});
+
+    yield put(PlaylistActions.getPlaylistRequest());
+  } catch (err) {
+    yield put(ErrorActions.setError("Error ao obter playlist"));
+
+    console.log(err);
+  }
+}
