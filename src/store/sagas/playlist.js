@@ -40,3 +40,19 @@ export function* savePlaylist(action) {
     console.log(err);
   }
 }
+
+export function* updatePlaylist(action) {
+  const db = firebase.firestore();
+  console.log(action);
+  try {
+    const playlist = db.collection("playlists").doc(action.payload.id);
+
+    yield playlist.update(action.payload.body).then(() => {});
+
+    yield put(PlaylistActions.getPlaylistRequest());
+  } catch (err) {
+    yield put(ErrorActions.setError("Error ao obter playlist"));
+
+    console.log(err);
+  }
+}

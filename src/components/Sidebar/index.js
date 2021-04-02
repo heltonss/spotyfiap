@@ -5,7 +5,15 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Creators as PlaylistActions } from "../../store/ducks/playlist";
-import { Container, NewPlaylist, Nav, Edit, Item, LinkText } from "./style";
+import {
+  Container,
+  NewPlaylist,
+  Nav,
+  Edit,
+  Item,
+  LinkText,
+  LinkPlaylist,
+} from "./style";
 import Loading from "components/loading";
 
 const Sidebar = ({ getPlaylistRequest, playlists, loading }) => {
@@ -72,7 +80,9 @@ const Sidebar = ({ getPlaylistRequest, playlists, loading }) => {
           </li>
           {playlists.map((p) => (
             <Item key={p.playlist.description}>
-              <Link to={`/playlist/${p.id}`}>{p.playlist.title}</Link>
+              <LinkPlaylist to={`/playlist/${p.id}`}>
+                {p.playlist.title}
+              </LinkPlaylist>
               <LinkText to={`/create-playlist/${p.id}`}>
                 <Edit />
               </LinkText>

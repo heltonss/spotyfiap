@@ -16,6 +16,8 @@ import InputCustom from "components/InputCustom";
 import ButtonCustom from "components/ButtonCustom";
 import LoaderWave from "components/Loader";
 import { AlertType } from "utils/AlertType";
+import { updatePlaylist } from "store/sagas/playlist";
+import { useHistory } from "react-router";
 
 const HandlePlaylist = ({
   getSongsRequest,
@@ -27,6 +29,7 @@ const HandlePlaylist = ({
   playlistDetails,
   loadingDetails,
   getPlaylistDetailsRequest,
+  updatePlaylist,
 }) => {
   const alert = useAlert();
   const [selectedSong, setSelectedSong] = useState(null);
@@ -37,6 +40,7 @@ const HandlePlaylist = ({
   const listSongs = new Set();
   const playlistID = match.params.id;
   const isEdit = playlistID || null;
+  const history = useHistory();
 
   const createPlaylist = () => {
     const playlist = {
@@ -45,7 +49,22 @@ const HandlePlaylist = ({
       thumbnail,
       songs: Array.from(listSongs),
     };
-    return savePlaylist(playlist);
+    savePlaylist(playlist);
+    return history.goBack();
+  };
+
+  const updatePlaylistCurrent = () => {
+    const playlist = {
+      body: {
+        title,
+        description,
+        thumbnail,
+        songs: Array.from(listSongs),
+      },
+      id: match.params.id,
+    };
+    updatePlaylist(playlist);
+    return history.goBack();
   };
 
   useEffect(() => {
@@ -139,7 +158,7 @@ const HandlePlaylist = ({
           type="button"
           colorFont="#333"
           label="Criar playlist"
-          func={createPlaylist}
+          func={isEdit ? updatePlaylistCurrent : createPlaylist}
           disabled={!isValidate}
         />
       )}

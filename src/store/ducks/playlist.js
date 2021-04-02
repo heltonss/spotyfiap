@@ -3,6 +3,7 @@ export const Types = {
   GET_REQUEST_ID: "playlists/GET_REQUEST_ID",
   GET_SUCCESS: "playlists/GET_SUCCESS",
   SAVE_PLAYLIST: "playlists/SAVE_PLAYLIST",
+  UPDATE_PLAYLIST: "playlists/UPDATE_PLAYLIST",
 };
 
 const INITIAL_STATE = {
@@ -27,6 +28,13 @@ export default function Playlist(state = INITIAL_STATE, action) {
         loading: false,
         newPlaylist: action.payload.newPlaylist,
       };
+    case Types.UPDATE_PLAYLIST:
+      return {
+        ...state,
+        loading: false,
+        body: action.payload.body,
+        id: action.payload.id,
+      };
     default:
       return state;
   }
@@ -34,9 +42,9 @@ export default function Playlist(state = INITIAL_STATE, action) {
 
 export const Creators = {
   getPlaylistRequest: () => ({ type: Types.GET_REQUEST }),
-  getPlaylistDetailsRequest: (id) => ({
-    type: Types.GET_REQUEST,
-    payload: { id },
+  updatePlaylist: ({ body, id }) => ({
+    type: Types.UPDATE_PLAYLIST,
+    payload: { body, id },
   }),
   getPlaylistSuccess: (data) => ({
     type: Types.GET_SUCCESS,

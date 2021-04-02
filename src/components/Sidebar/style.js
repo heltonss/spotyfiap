@@ -90,6 +90,12 @@ export const LinkText = styled(Link)`
   text-transform: uppercase;
   float: right;
 `;
+export const LinkPlaylist = styled(Link)`
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  line-height: 18px !important;
+`;
 
 export const Edit = styled(EditAlt)`
   color: #fff;
