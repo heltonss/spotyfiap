@@ -7,6 +7,7 @@ import { bindActionCreators } from "redux";
 import { Creators as PlaylistActions } from "../../store/ducks/playlist";
 import { Container, NewPlaylist, Nav } from "./style";
 import Loading from "components/loading";
+import { LinkText } from "components/modal/style";
 
 const Sidebar = ({ getPlaylistRequest, playlists, playlistsId, loading }) => {
   console.log({ playlists });
@@ -74,11 +75,12 @@ const Sidebar = ({ getPlaylistRequest, playlists, playlistsId, loading }) => {
           {playlists.map((p) => (
             <li key={p.playlist.description}>
               <Link to={`/playlist/${p.id}`}>{p.playlist.title}</Link>
+              <LinkText to={`/create-playlist/${p.id}`}>edit</LinkText>
             </li>
           ))}
         </Nav>
       </div>
-      <NewPlaylist to="/adicionar-playlist">
+      <NewPlaylist to="/create-playlist">
         <img src={AddPlaylistIcon} alt="Adicionar playlist" />
         Nova Playlist
       </NewPlaylist>

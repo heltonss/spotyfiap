@@ -20,15 +20,16 @@ const HandlePlaylist = ({
   loading,
   currentSong,
   savePlaylist,
+  match,
 }) => {
   const [selectedSong, setSelectedSong] = useState(null);
   const [title, setTitle] = useState();
   const [description, setDescription] = useState();
   const [thumbnail, setThumbnail] = useState("");
   const listSongs = new Set();
+  const isEdit = match.params.id;
 
   const createPlaylist = () => {
-
     const playlist = {
       title,
       description,
@@ -37,17 +38,17 @@ const HandlePlaylist = ({
     };
     console.log({ playlist });
     savePlaylist(playlist);
-
-
   };
 
   useEffect(() => {
     getSongsRequest();
   }, []);
 
-
   return (
-    <Modal title="Crie sua playlist" maxWidth="600">
+    <Modal
+      title={isEdit ? "Editar playlist" : "Crie uma playlist"}
+      maxWidth="600"
+    >
       <InputCustom
         type="text"
         label="Nome da playlist"
@@ -105,7 +106,7 @@ const HandlePlaylist = ({
         <LoaderWave />
       ) : (
         <ButtonCustom
-        type="button"
+          type="button"
           colorFont="#333"
           label="Criar playlist"
           func={createPlaylist}
