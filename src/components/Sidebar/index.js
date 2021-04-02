@@ -5,12 +5,10 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Creators as PlaylistActions } from "../../store/ducks/playlist";
-import { Container, NewPlaylist, Nav } from "./style";
+import { Container, NewPlaylist, Nav, Edit, Item, LinkText } from "./style";
 import Loading from "components/loading";
-import { LinkText } from "components/modal/style";
 
-const Sidebar = ({ getPlaylistRequest, playlists, playlistsId, loading }) => {
-  console.log({ playlists });
+const Sidebar = ({ getPlaylistRequest, playlists, loading }) => {
   useEffect(() => {
     getPlaylistRequest();
   }, []);
@@ -73,10 +71,12 @@ const Sidebar = ({ getPlaylistRequest, playlists, playlistsId, loading }) => {
             {loading && <Loading />}
           </li>
           {playlists.map((p) => (
-            <li key={p.playlist.description}>
+            <Item key={p.playlist.description}>
               <Link to={`/playlist/${p.id}`}>{p.playlist.title}</Link>
-              <LinkText to={`/create-playlist/${p.id}`}>edit</LinkText>
-            </li>
+              <LinkText to={`/create-playlist/${p.id}`}>
+                <Edit />
+              </LinkText>
+            </Item>
           ))}
         </Nav>
       </div>

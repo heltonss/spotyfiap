@@ -7,7 +7,6 @@ import { Creators as PlaylistActions } from "../../store/ducks/playlist";
 import Loading from "components/loading";
 
 const Browse = ({ playlists, loading }) => {
-  console.log(playlists);
   return (
     <Container>
       <Title>Navegar {loading && <Loading />} </Title>

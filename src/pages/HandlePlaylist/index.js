@@ -40,7 +40,6 @@ const HandlePlaylist = ({
       thumbnail,
       songs: Array.from(listSongs),
     };
-    console.log({ playlist });
     return savePlaylist(playlist);
   };
 

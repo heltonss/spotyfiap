@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Spinner } from "components/loading/style";
 import { Link } from "react-router-dom";
+import { EditAlt } from "@styled-icons/boxicons-regular/EditAlt";
 
 export const Container = styled.aside`
   height: 100%;
@@ -75,4 +76,22 @@ export const NewPlaylist = styled(Link)`
   img {
     margin-right: 10px;
   }
+`;
+
+export const Item = styled.li`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const LinkText = styled(Link)`
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  text-transform: uppercase;
+  float: right;
+`;
+
+export const Edit = styled(EditAlt)`
+  color: #fff;
+  width: 16px;
 `;
