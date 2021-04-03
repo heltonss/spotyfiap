@@ -46,3 +46,8 @@ export const SongItem = styled.tr`
 export const Icon = styled.img`
   cursor: pointer;
 `;
+
+export const Actions = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;

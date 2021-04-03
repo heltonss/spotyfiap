@@ -4,12 +4,15 @@ export const Types = {
   GET_SUCCESS: "playlists/GET_SUCCESS",
   SAVE_PLAYLIST: "playlists/SAVE_PLAYLIST",
   UPDATE_PLAYLIST: "playlists/UPDATE_PLAYLIST",
+  DELETE_PLAYLIST: "playlists/DELETE_PLAYLIST",
+  DELETE_PLAYLIST_SUCCESS: "playlists/DELETE_PLAYLIST_SUCCESS",
 };
 
 const INITIAL_STATE = {
   data: [],
   loading: false,
   newPlaylist: {},
+  success: false,
 };
 
 export default function Playlist(state = INITIAL_STATE, action) {
@@ -35,6 +38,16 @@ export default function Playlist(state = INITIAL_STATE, action) {
         body: action.payload.body,
         id: action.payload.id,
       };
+    case Types.DELETE_PLAYLIST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case Types.DELETE_PLAYLIST_SUCCESS:
+      return {
+        ...state,
+        success: action.payload.success,
+      };
     default:
       return state;
   }
@@ -45,6 +58,14 @@ export const Creators = {
   updatePlaylist: ({ body, id }) => ({
     type: Types.UPDATE_PLAYLIST,
     payload: { body, id },
+  }),
+  deletePlaylist: (id) => ({
+    type: Types.DELETE_PLAYLIST,
+    payload: { id },
+  }),
+  deletePlaylistSuccess: (success) => ({
+    type: Types.DELETE_PLAYLIST_SUCCESS,
+    payload: { success },
   }),
   getPlaylistSuccess: (data) => ({
     type: Types.GET_SUCCESS,

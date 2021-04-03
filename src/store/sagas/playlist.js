@@ -19,7 +19,6 @@ export function* getPlaylists() {
     yield put(PlaylistActions.getPlaylistSuccess(data));
   } catch (err) {
     yield put(ErrorActions.setError("Error ao obter playlist"));
-
     console.log(err);
   }
 }
@@ -36,7 +35,6 @@ export function* savePlaylist(action) {
     yield put(PlaylistActions.getPlaylistRequest());
   } catch (err) {
     yield put(ErrorActions.setError("Error ao obter playlist"));
-
     console.log(err);
   }
 }
@@ -51,8 +49,24 @@ export function* updatePlaylist(action) {
 
     yield put(PlaylistActions.getPlaylistRequest());
   } catch (err) {
-    yield put(ErrorActions.setError("Error ao obter playlist"));
+    yield put(ErrorActions.setError("Error ao atualizar playlist"));
+    console.log(err);
+  }
+}
 
+export function* deletePlaylist(action) {
+  console.log({ action });
+  const db = firebase.firestore();
+  console.log(action);
+  try {
+    const playlist = db.collection("playlists").doc(action.payload.id);
+
+    yield playlist.delete().then(() => {});
+    yield put(PlaylistActions.deletePlaylistSuccess(true));
+
+    yield put(PlaylistActions.getPlaylistRequest());
+  } catch (err) {
+    yield put(ErrorActions.setError("Error ao deletar playlist"));
     console.log(err);
   }
 }

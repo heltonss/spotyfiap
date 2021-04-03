@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Modal from "components/modal";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { SongItem, SongList, Icon } from "./style";
+import { SongItem, SongList, Icon, Actions } from "./style";
 import ClockIcon from "assets/images/clock.svg";
 import PlusIcon from "assets/images/plus.svg";
 import { useAlert } from "react-alert";
@@ -16,7 +16,6 @@ import InputCustom from "components/InputCustom";
 import ButtonCustom from "components/ButtonCustom";
 import LoaderWave from "components/Loader";
 import { AlertType } from "utils/AlertType";
-import { updatePlaylist } from "store/sagas/playlist";
 import { useHistory } from "react-router";
 
 const HandlePlaylist = ({
@@ -30,6 +29,8 @@ const HandlePlaylist = ({
   loadingDetails,
   getPlaylistDetailsRequest,
   updatePlaylist,
+  deletePlaylist,
+  deleteSuccess,
 }) => {
   const alert = useAlert();
   const [selectedSong, setSelectedSong] = useState(null);
@@ -67,6 +68,10 @@ const HandlePlaylist = ({
     return history.goBack();
   };
 
+  const removePlaylist = () => {
+    deletePlaylist(playlistID);
+  };
+
   useEffect(() => {
     getSongsRequest();
     getPlaylistDetailsRequest(playlistID);
@@ -86,6 +91,14 @@ const HandlePlaylist = ({
       title.length > 5 && description.length > 10 && thumbnail.length > 15
     );
   }, [title, description, thumbnail]);
+
+  useEffect(() => {
+    console.log({ deleteSuccess });
+    if (deleteSuccess) {
+      alert.show("playlist removida", { type: AlertType.SUCCESS });
+      history.goBack();
+    }
+  }, [deleteSuccess]);
 
   return (
     <Modal
@@ -154,13 +167,26 @@ const HandlePlaylist = ({
       {loading ? (
         <LoaderWave />
       ) : (
-        <ButtonCustom
-          type="button"
-          colorFont="#333"
-          label="Criar playlist"
-          func={isEdit ? updatePlaylistCurrent : createPlaylist}
-          disabled={!isValidate}
-        />
+        <Actions>
+          {isEdit ? (
+            <ButtonCustom
+              background="#ff5500"
+              type="button"
+              colorFont="#fff"
+              label="Deletar playlist"
+              func={removePlaylist}
+            />
+          ) : (
+            <span />
+          )}
+          <ButtonCustom
+            type="button"
+            colorFont="#333"
+            label={isEdit ? "Salvar playlist" : "Criar playlist"}
+            func={isEdit ? updatePlaylistCurrent : createPlaylist}
+            disabled={!isValidate}
+          />
+        </Actions>
       )}
     </Modal>
   );
@@ -172,6 +198,7 @@ const mapStateToProps = (state) => ({
   loading: state.playlists.loading,
   playlistDetails: state.playlistDetails.data,
   loadingDetails: !state.playlistDetails.loading,
+  deleteSuccess: state.playlists.success,
 });
 
 const mapDispatchToProps = (dispatch) =>
