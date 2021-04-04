@@ -18,7 +18,7 @@ const INITIAL_STATE = {
 export default function Playlist(state = INITIAL_STATE, action) {
   switch (action.type) {
     case Types.GET_REQUEST:
-      return { ...state, loading: true };
+      return { ...state, loading: true, success: false };
     case Types.GET_SUCCESS:
       return {
         ...state,

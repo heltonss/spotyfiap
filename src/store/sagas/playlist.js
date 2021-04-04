@@ -41,7 +41,6 @@ export function* savePlaylist(action) {
 
 export function* updatePlaylist(action) {
   const db = firebase.firestore();
-  console.log(action);
   try {
     const playlist = db.collection("playlists").doc(action.payload.id);
 
@@ -55,9 +54,7 @@ export function* updatePlaylist(action) {
 }
 
 export function* deletePlaylist(action) {
-  console.log({ action });
   const db = firebase.firestore();
-  console.log(action);
   try {
     const playlist = db.collection("playlists").doc(action.payload.id);
 

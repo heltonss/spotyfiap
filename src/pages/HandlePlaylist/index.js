@@ -37,21 +37,23 @@ const HandlePlaylist = ({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [thumbnail, setThumbnail] = useState("");
+  const [songsSelected, setSongsSelected] = useState([]);
   const [isValidate, setIsValidate] = useState();
-  const listSongs = new Set();
   const playlistID = match.params.id;
   const isEdit = playlistID || null;
   const history = useHistory();
+
+  const route = () => history.push(`/home`);
 
   const createPlaylist = () => {
     const playlist = {
       title,
       description,
       thumbnail,
-      songs: Array.from(listSongs),
+      songs: songsSelected,
     };
     savePlaylist(playlist);
-    return history.goBack();
+    return route();
   };
 
   const updatePlaylistCurrent = () => {
@@ -60,12 +62,13 @@ const HandlePlaylist = ({
         title,
         description,
         thumbnail,
-        songs: Array.from(listSongs),
+        songs: songsSelected,
       },
       id: match.params.id,
     };
+    console.log({ playlist });
     updatePlaylist(playlist);
-    return history.goBack();
+    return route();
   };
 
   const removePlaylist = () => {
@@ -79,10 +82,11 @@ const HandlePlaylist = ({
 
   useEffect(() => {
     if (isEdit && loadingDetails) {
-      const { title, description, thumbnail } = playlistDetails;
+      const { title, description, thumbnail, songs } = playlistDetails;
       setTitle(title || "");
       setDescription(description || "");
       setThumbnail(thumbnail || "");
+      setSongsSelected(songs);
     }
   }, [loadingDetails]);
 
@@ -93,10 +97,9 @@ const HandlePlaylist = ({
   }, [title, description, thumbnail]);
 
   useEffect(() => {
-    console.log({ deleteSuccess });
     if (deleteSuccess) {
       alert.show("playlist removida", { type: AlertType.SUCCESS });
-      history.goBack();
+      route();
     }
   }, [deleteSuccess]);
 
@@ -150,7 +153,7 @@ const HandlePlaylist = ({
                 <Icon
                   onClick={() => {
                     alert.show("Música add", { type: AlertType.SUCCESS });
-                    listSongs.add(song);
+                    setSongsSelected([...songsSelected, song]);
                   }}
                   src={PlusIcon}
                   alt="adicionar"
