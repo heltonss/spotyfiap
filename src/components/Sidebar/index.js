@@ -32,12 +32,6 @@ const Sidebar = ({ getPlaylistRequest, playlists, loading }) => {
             <Link to="/home">Navegar</Link>
           </li>
           <li>
-            <Link to="/about">Sobre</Link>
-          </li>
-          <li>
-            <Link to="/">Navegar</Link>
-          </li>
-          <li>
             <a href="#">Rádio</a>
           </li>
         </Nav>
