@@ -12,6 +12,7 @@ import { Text, LinkText } from "./style";
 
 import InputEmail from "components/InputEmail";
 import { AlertType } from "../../utils/AlertType";
+import User from "models/user";
 
 const Login = () => {
   const [email, setEmail] = useState();
@@ -24,9 +25,10 @@ const Login = () => {
     setLoading(true);
     firebase
       .auth()
-      .signInWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(email, password.trim())
       .then((userCredential) => {
         if (userCredential.user) {
+          User.setUser = userCredential.user;
           history.push("/home");
         }
       })

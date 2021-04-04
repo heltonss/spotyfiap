@@ -1,14 +1,14 @@
 export const Types = {
-  GET_REQUEST: "playlistDetails/GET_REQUEST",
-  GET_SUCCESS: "playlistDetails/GET_SUCCESS",
+  GET_REQUEST: "songs/GET_REQUEST",
+  GET_SUCCESS: "songs/GET_SUCCESS",
 };
 
 const INITIAL_STATE = {
-  data: {},
+  data: [],
   loading: false,
 };
 
-export default function playlistDetails(state = INITIAL_STATE, action) {
+export default function Songs(state = INITIAL_STATE, action) {
   switch (action.type) {
     case Types.GET_REQUEST:
       return { ...state, loading: true };
@@ -20,11 +20,8 @@ export default function playlistDetails(state = INITIAL_STATE, action) {
 }
 
 export const Creators = {
-  getPlaylistDetailsRequest: (id) => ({
-    type: Types.GET_REQUEST,
-    payload: { id },
-  }),
-  getPlaylistDetailsSuccess: (data) => ({
+  getSongsRequest: () => ({ type: Types.GET_REQUEST }),
+  getSongsSuccess: (data) => ({
     type: Types.GET_SUCCESS,
     payload: { data },
   }),

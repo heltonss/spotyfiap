@@ -1,16 +1,69 @@
-import { call, put } from 'redux-saga/effects';
-import api from '../../services/api';
+import { put } from "redux-saga/effects";
 
-import { Creators as PlaylistActions } from '../ducks/playlist';
-import { Creators as ErrorActions } from '../ducks/error';
+import { Creators as PlaylistActions } from "../ducks/playlist";
+import { Creators as ErrorActions } from "../ducks/error";
+import firebase from "firebase";
 
 export function* getPlaylists() {
+  const db = firebase.firestore();
+  const data = [];
   try {
-    const response = yield call(api.get, 'playlists');
-    yield put(PlaylistActions.getPlaylistSuccess(response.data));
+    yield db
+      .collection("playlists")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          data.push({ id: doc.id, playlist: doc.data() });
+        });
+      });
+    yield put(PlaylistActions.getPlaylistSuccess(data));
   } catch (err) {
-    yield put(ErrorActions.setError('Error ao obter playlist'));
+    yield put(ErrorActions.setError("Error ao obter playlist"));
+    console.log(err);
+  }
+}
 
+export function* savePlaylist(action) {
+  const db = firebase.firestore();
+
+  try {
+    yield db
+      .collection("playlists")
+      .add(action.payload)
+      .then((docRef) => {});
+
+    yield put(PlaylistActions.getPlaylistRequest());
+  } catch (err) {
+    yield put(ErrorActions.setError("Error ao obter playlist"));
+    console.log(err);
+  }
+}
+
+export function* updatePlaylist(action) {
+  const db = firebase.firestore();
+  try {
+    const playlist = db.collection("playlists").doc(action.payload.id);
+
+    yield playlist.update(action.payload.body).then(() => {});
+
+    yield put(PlaylistActions.getPlaylistRequest());
+  } catch (err) {
+    yield put(ErrorActions.setError("Error ao atualizar playlist"));
+    console.log(err);
+  }
+}
+
+export function* deletePlaylist(action) {
+  const db = firebase.firestore();
+  try {
+    const playlist = db.collection("playlists").doc(action.payload.id);
+
+    yield playlist.delete().then(() => {});
+    yield put(PlaylistActions.deletePlaylistSuccess(true));
+
+    yield put(PlaylistActions.getPlaylistRequest());
+  } catch (err) {
+    yield put(ErrorActions.setError("Error ao deletar playlist"));
     console.log(err);
   }
 }

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Loading from "components/loading";
 import { Container } from "./style";
+import { withRouter } from "react-router-dom";
 import { Creators as PlaylistDetailsActions } from "../../store/ducks/playlistDetails";
 import Details from "./Details";
 
@@ -11,6 +12,7 @@ const Playlist = ({
   playlistDetails,
   loadPlaylistDetails,
   getPlaylistDetailsRequest,
+  loading,
 }) => {
   loadPlaylistDetails = () => {
     const { id } = match.params;
@@ -19,9 +21,9 @@ const Playlist = ({
 
   useEffect(() => {
     loadPlaylistDetails();
-  }, []);
+  }, [match.params.id]);
 
-  return playlistDetails.loading ? (
+  return loading ? (
     <Container loading>
       <Loading />
     </Container>
@@ -31,10 +33,13 @@ const Playlist = ({
 };
 
 const mapStateToProps = (state) => ({
-  playlistDetails: state.playlistDetails,
+  playlistDetails: state.playlistDetails.data,
+  loading: state.playlistDetails.loading,
 });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({ ...PlaylistDetailsActions }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Playlist);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(Playlist)
+);

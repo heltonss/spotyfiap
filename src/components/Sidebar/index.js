@@ -5,10 +5,18 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Creators as PlaylistActions } from "../../store/ducks/playlist";
-import { Container, NewPlaylist, Nav } from "./style";
+import {
+  Container,
+  NewPlaylist,
+  Nav,
+  Edit,
+  Item,
+  LinkText,
+  LinkPlaylist,
+} from "./style";
 import Loading from "components/loading";
 
-const Sidebar = ({ getPlaylistRequest, playlists }) => {
+const Sidebar = ({ getPlaylistRequest, playlists, loading }) => {
   useEffect(() => {
     getPlaylistRequest();
   }, []);
@@ -17,6 +25,12 @@ const Sidebar = ({ getPlaylistRequest, playlists }) => {
     <Container>
       <div>
         <Nav main>
+          <li>
+            <Link to="/about">Sobre</Link>
+          </li>
+          <li>
+            <Link to="/home">Navegar</Link>
+          </li>
           <li>
             <Link to="/about">Sobre</Link>
           </li>
@@ -62,16 +76,21 @@ const Sidebar = ({ getPlaylistRequest, playlists }) => {
         <Nav>
           <li>
             <span>playlists</span>
-            {playlists.loading && <Loading />}
+            {loading && <Loading />}
           </li>
-          {playlists.data.map((playlist) => (
-            <li key={playlist.id}>
-              <Link to={`/playlist/${playlist.id}`}>{playlist.title}</Link>
-            </li>
+          {playlists.map((p) => (
+            <Item key={p.playlist.description}>
+              <LinkPlaylist to={`/playlist/${p.id}`}>
+                {p.playlist.title}
+              </LinkPlaylist>
+              <LinkText to={`/create-playlist/${p.id}`}>
+                <Edit />
+              </LinkText>
+            </Item>
           ))}
         </Nav>
       </div>
-      <NewPlaylist>
+      <NewPlaylist to="/create-playlist">
         <img src={AddPlaylistIcon} alt="Adicionar playlist" />
         Nova Playlist
       </NewPlaylist>
@@ -81,19 +100,13 @@ const Sidebar = ({ getPlaylistRequest, playlists }) => {
 
 Sidebar.propTypes = {
   getPlaylistRequest: PropTypes.func.isRequired,
-  playlists: PropTypes.shape({
-    data: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number,
-        title: PropTypes.string,
-      })
-    ),
-    loading: PropTypes.bool,
-  }),
+  playlists: PropTypes.array,
+  loading: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
-  playlists: state.playlists,
+  playlists: state.playlists.data,
+  loading: state.playlists.loading,
 });
 
 const mapDispatchToProps = (dispatch) =>

@@ -20,7 +20,8 @@
     "reactotron-redux": "^3.1.1",
     "reactotron-redux-saga": "^4.2.2",
     "redux-saga": "^1.0.2",
-    "styled-components": "^4.3.1"
+    "styled-components": "^4.3.1",
+    "styled-icons": "^10.31.0"
   },
   "scripts": {
     "start": "react-scripts start",

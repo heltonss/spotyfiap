@@ -84,6 +84,7 @@ export const SongList = styled.table`
 
 export const SongItem = styled.tr`
   td {
+    cursor: pointer;
     border-top: 1px solid #282828;
     font-size: 13px;
     padding: 0 10px;

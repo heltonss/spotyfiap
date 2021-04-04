@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import ClockIcon from "assets/images/clock.svg";
@@ -8,17 +8,17 @@ import { Container, Header, SongList, SongItem } from "../style";
 import { Creators as PlayerActions } from "../../../store/ducks/player";
 
 const Details = ({ currentSong, playlistDetails, loadSong }) => {
-  const playlist = playlistDetails.data;
   const [selectedSong, setSelectedSong] = useState(null);
+  const { title, thumbnail, songs } = playlistDetails;
 
   return (
     <Container>
       <Header>
-        <img src={playlist.thumbnail} alt={playlist.title} />
+        <img src={thumbnail} alt={title} />
         <div>
           <span>playlist</span>
-          <h1>{playlist.title}</h1>
-          {!!playlist.songs && <p>{playlist.songs.length} músicas</p>}
+          <h1>{title}</h1>
+          {!!songs && <p>{songs.length} músicas</p>}
 
           <button>PLAY</button>
         </div>
@@ -36,15 +36,15 @@ const Details = ({ currentSong, playlistDetails, loadSong }) => {
           </tr>
         </thead>
         <tbody>
-          {!playlist.songs ? (
+          {!songs ? (
             <tr>
               <td colSpan={5}>Nenhuma música cadastrada</td>
             </tr>
           ) : (
-            playlist.songs.map((song) => (
+            songs.map((song) => (
               <SongItem
                 key={song.id}
-                onDoubleClick={() => loadSong(song, playlist.songs)}
+                onDoubleClick={() => loadSong(song, songs)}
                 onClick={() => setSelectedSong(song.id)}
                 selected={selectedSong === song.id}
                 playing={currentSong && currentSong.id === song.id}
@@ -66,7 +66,6 @@ const Details = ({ currentSong, playlistDetails, loadSong }) => {
 };
 
 const mapStateToProps = (state) => ({
-  playlistDetails: state.playlistDetails,
   currentSong: state.player.currentSong,
 });
 

@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -6,16 +6,16 @@ import { Container, Title, List, Playlist } from "./style";
 import { Creators as PlaylistActions } from "../../store/ducks/playlist";
 import Loading from "components/loading";
 
-const Browse = ({ playlists }) => {
+const Browse = ({ playlists, loading }) => {
   return (
     <Container>
-      <Title>Navegar {playlists.loading && <Loading />} </Title>
+      <Title>Navegar {loading && <Loading />} </Title>
       <List>
-        {playlists.data.map((playlist) => (
-          <Playlist key={playlist.id} to={`/playlist/${playlist.id}`}>
-            <img src={playlist.thumbnail} alt={playlist.title} />
-            <strong>{playlist.title}</strong>
-            <p>{playlist.description}</p>
+        {playlists.map((p) => (
+          <Playlist key={p.playlist.description} to={`/playlist/${p.id}`}>
+            <img src={p.playlist.thumbnail} alt={p.title} />
+            <strong>{p.playlist.title}</strong>
+            <p>{p.playlist.description}</p>
           </Playlist>
         ))}
       </List>
@@ -25,21 +25,13 @@ const Browse = ({ playlists }) => {
 
 Browse.propTypes = {
   getPlaylistRequest: PropTypes.func.isRequired,
-  playlists: PropTypes.shape({
-    data: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number,
-        title: PropTypes.string,
-        thumbnail: PropTypes.string,
-        description: PropTypes.string,
-      })
-    ),
-    loading: PropTypes.bool,
-  }),
+  playlists: PropTypes.array,
+  loading: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
-  playlists: state.playlists,
+  playlists: state.playlists.data,
+  loading: state.playlists.loading,
 });
 
 const mapDispatchToProps = (dispatch) =>
