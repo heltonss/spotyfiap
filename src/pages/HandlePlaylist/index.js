@@ -91,9 +91,10 @@ const HandlePlaylist = ({
   }, [loadingDetails]);
 
   useEffect(() => {
-    setIsValidate(
-      title.length > 5 && description.length > 10 && thumbnail.length > 15
-    );
+    const isTitleNotEmpty = title && title.trim().length > 0;
+    const isDescriptionNotEmpty = description && description.trim().length > 0;
+    const isThumbnailNotEmpty = thumbnail && thumbnail.trim().length > 0;
+    setIsValidate(isTitleNotEmpty && isDescriptionNotEmpty && isThumbnailNotEmpty);
   }, [title, description, thumbnail]);
 
   useEffect(() => {
@@ -118,7 +119,7 @@ const HandlePlaylist = ({
       <InputCustom
         type="text"
         label="Descrição"
-        placeholder="adicione o titulo da sua playlist"
+        placeholder="adicione uma descrição para sua playlist"
         func={setDescription}
         value={description}
       />
