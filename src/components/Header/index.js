@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Search, User } from './style';
+import DropdownMenu from "components/DropdownMenu";
 
 const Header = () => (
   <Container>
@@ -9,6 +10,7 @@ const Header = () => (
     <User>
       <img src="https://avatars1.githubusercontent.com/u/5309073?v=4" alt="avatar" />
       Helton
+      <DropdownMenu/>
     </User>
   </Container>
 );
