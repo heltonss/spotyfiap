@@ -15,7 +15,7 @@ const Routes = () => (
     <PrivateRoute path="/about" component={About} />
     <PrivateRoute path="/home" component={Browse} />
     <PrivateRoute path="/playlist/:id" component={Playlist} />
-    <PrivateRoute path="/create-playlist/:id?" component={HandlePlaylist} />
+    <PrivateRoute path="/handle-playlist/:id?" component={HandlePlaylist} />
   </Switch>
 );
 

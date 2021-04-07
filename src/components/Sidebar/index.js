@@ -77,14 +77,14 @@ const Sidebar = ({ getPlaylistRequest, playlists, loading }) => {
               <LinkPlaylist to={`/playlist/${p.id}`}>
                 {p.playlist.title}
               </LinkPlaylist>
-              <LinkText to={`/create-playlist/${p.id}`}>
+              <LinkText to={`/handle-playlist/${p.id}`}>
                 <Edit />
               </LinkText>
             </Item>
           ))}
         </Nav>
       </div>
-      <NewPlaylist to="/create-playlist">
+      <NewPlaylist to="/handle-playlist">
         <img src={AddPlaylistIcon} alt="Adicionar playlist" />
         Nova Playlist
       </NewPlaylist>
