@@ -1,10 +1,5 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Getting started
-
-The app will have a simulated API for development, so it's necessary to install json-server  
-`npm install -g json-server`
-
 ## Available Scripts
 
 ### `npm run app`
