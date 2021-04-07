@@ -5,6 +5,7 @@ export const Container = styled.div`
 `;
 
 export const Menu = styled.div`
+  cursor: pointer;
   background: #000;
   border-radius: 8px;
   position: absolute;
