@@ -6,6 +6,7 @@ import { SongItem, SongList, Icon, Actions } from "./style";
 import ClockIcon from "assets/images/clock.svg";
 import PlusIcon from "assets/images/plus.svg";
 import { useAlert } from "react-alert";
+import { withRouter } from "react-router-dom";
 
 import { Creators as SongsActions } from "../../store/ducks/songs";
 import { Creators as PlayerActions } from "../../store/ducks/player";
@@ -94,7 +95,9 @@ const HandlePlaylist = ({
     const isTitleNotEmpty = title && title.trim().length > 0;
     const isDescriptionNotEmpty = description && description.trim().length > 0;
     const isThumbnailNotEmpty = thumbnail && thumbnail.trim().length > 0;
-    setIsValidate(isTitleNotEmpty && isDescriptionNotEmpty && isThumbnailNotEmpty);
+    setIsValidate(
+      isTitleNotEmpty && isDescriptionNotEmpty && isThumbnailNotEmpty
+    );
   }, [title, description, thumbnail]);
 
   useEffect(() => {
@@ -216,4 +219,6 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(HandlePlaylist);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(HandlePlaylist)
+);

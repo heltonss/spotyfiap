@@ -1,26 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Search, User, IconPerson } from "./style";
 import DropdownMenu from "components/DropdownMenu";
 import UserFirebase from "models/user";
+import { connect } from "react-redux";
 
-const Header = () => {
-  console.log(UserFirebase);
+const Header = ({ loading }) => {
   return (
     <Container>
       <Search>
         <input placeholder="Search" />
       </Search>
-      <User>
-        {/* <img
-          src="https://avatars1.githubusercontent.com/u/5309073?v=4"
-          alt="avatar"
-        /> */}
-        <IconPerson />
-        {UserFirebase.getUser.email}
-        <DropdownMenu />
-      </User>
+      {(loading || UserFirebase.getUser) && (
+        <User>
+          <IconPerson />
+          {UserFirebase.getUser.email}
+          <DropdownMenu />
+        </User>
+      )}
     </Container>
   );
 };
 
-export default Header;
+const mapStateToProps = (state) => ({
+  loading: state.login.loading,
+});
+
+export default connect(mapStateToProps, null)(Header);

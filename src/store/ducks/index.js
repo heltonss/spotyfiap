@@ -4,6 +4,7 @@ import playlistDetails from "./playlistDetails";
 import error from "./error";
 import player from "./player";
 import songs from "./songs";
+import login from "./login";
 
 const reducers = combineReducers({
   playlists,
@@ -11,6 +12,7 @@ const reducers = combineReducers({
   error,
   player,
   songs,
+  login,
 });
 
 export default reducers;

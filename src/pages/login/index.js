@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import firebase from "firebase";
 import Modal from "components/modal";
-import { useHistory } from "react-router";
+import { Redirect, useHistory } from "react-router";
 import validator from "email-validator";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import { useAlert } from "react-alert";
 
 import Loader from "components/Loader";
@@ -12,9 +14,11 @@ import { Text, LinkText } from "./style";
 
 import InputEmail from "components/InputEmail";
 import { AlertType } from "../../utils/AlertType";
+import { Creators as LoginActions } from "../../store/ducks/login";
+
 import User from "models/user";
 
-const Login = () => {
+const Login = ({ loginRequest, loginSuccess }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [loading, setLoading] = useState(false);
@@ -22,6 +26,7 @@ const Login = () => {
   const alert = useAlert();
 
   const signIn = () => {
+    loginRequest();
     setLoading(true);
     firebase
       .auth()
@@ -29,6 +34,7 @@ const Login = () => {
       .then((userCredential) => {
         if (userCredential.user) {
           User.setUser = userCredential.user;
+          loginSuccess();
           history.push("/home");
         }
       })
@@ -38,7 +44,9 @@ const Login = () => {
       });
   };
 
-  return (
+  return User.getUser ? (
+    <Redirect to="/home" />
+  ) : (
     <Modal title="login">
       <InputEmail label="e-mail" func={setEmail} />
       <InputCustom
@@ -68,4 +76,7 @@ const Login = () => {
   );
 };
 
-export default Login;
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ ...LoginActions }, dispatch);
+
+export default connect(null, mapDispatchToProps)(Login);
