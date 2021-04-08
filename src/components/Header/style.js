@@ -1,5 +1,6 @@
-import styled from 'styled-components';
-import SearchIcon from 'assets/images/search.svg';
+import styled from "styled-components";
+import SearchIcon from "assets/images/search.svg";
+import { Person } from "@styled-icons/bootstrap/Person";
 
 export const Container = styled.header`
   display: flex;
@@ -20,7 +21,7 @@ export const Search = styled.div`
   input {
     flex: 1;
     font-size: 13px;
-    color: '#121212';
+    color: "#121212";
     border: 0;
   }
 `;
@@ -36,4 +37,10 @@ export const User = styled.div`
     border-radius: 50%;
     margin-right: 5px;
   }
+`;
+
+export const IconPerson = styled(Person)`
+  color: #fff;
+  width: 22px;
+  margin-right: 10px;
 `;
